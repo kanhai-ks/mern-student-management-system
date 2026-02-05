@@ -20,6 +20,10 @@ const Navbar = () => {
         <Link to="/students/add" className="hover:text-amber-300">
           Add Student
         </Link>
+
+        <Link to="/login" className="hover:text-amber-300">
+          Login
+        </Link>
       </nav>
     </div>
   );

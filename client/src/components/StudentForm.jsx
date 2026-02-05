@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { toast } from "react-toastify";
+import InputField from "./InputField";
 
 const StudentForm = ({ student, onSubmit, onCancel }) => {
   const [formData, setFormData] = useState({
@@ -7,20 +8,25 @@ const StudentForm = ({ student, onSubmit, onCancel }) => {
     email: student?.email || "",
     age: student?.age || "",
     course: student?.course || "",
+    gender: student?.gender || "",
+    image: student?.image || null,
   });
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setFormData({ ...formData, image: file });
+    }
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (
-      !formData.name ||
-      !formData.email ||
-      !formData.age ||
-      !formData.course
-    ) {
+    const { name, email, age, course, gender, image } = formData;
+    if (!name || !email || !age || !course || !gender || !image) {
       toast.error("Please fill in all fields");
       return;
     }
@@ -30,62 +36,94 @@ const StudentForm = ({ student, onSubmit, onCancel }) => {
   return (
     <form
       onSubmit={handleSubmit}
-      className="max-w-md mx-auto bg-white p-6 rounded-lg shadow-md"
+      className="max-w-md mx-auto bg-white p-2 rounded-lg shadow-md"
     >
-      <h2 className="text-2xl font-bold mb-4">
+      <h2 className="text-2xl text-center font-bold mb-2">
         {student ? "Edit Student" : "Add Student"}
       </h2>
 
       {/* Name */}
-      <div className="mb-4">
-        <label className="block text-gray-700">Name</label>
-        <input
-          type="text"
-          name="name"
-          value={formData.name}
-          onChange={handleChange}
-          className="w-full px-3 py-2 border rounded"
-          required
-        />
-      </div>
+      <InputField
+        label="Name"
+        type="text"
+        name="name"
+        value={formData.name}
+        onChange={handleChange}
+        required
+      />
 
       {/* Email */}
-      <div className="mb-4">
-        <label className="block text-gray-700">Email</label>
-        <input
-          type="email"
-          name="email"
-          value={formData.email}
-          onChange={handleChange}
-          className="w-full px-3 py-2 border rounded"
-          required
-        />
-      </div>
+      <InputField
+        label="Email"
+        type="email"
+        name="email"
+        value={formData.email}
+        onChange={handleChange}
+        required
+      />
 
       {/* Age */}
-      <div className="mb-4">
-        <label className="block text-gray-700">Age</label>
-        <input
-          type="number"
-          name="age"
-          value={formData.age}
-          onChange={handleChange}
-          className="w-full px-3 py-2 border rounded"
-          required
-        />
-      </div>
+      <InputField
+        label="Age"
+        type="number"
+        name="age"
+        value={formData.age}
+        onChange={handleChange}
+        required
+      />
 
-      {/* Course */}
-      <div className="mb-4">
+      {/* Course Dropdown */}
+      <div className="mb-2">
         <label className="block text-gray-700">Course</label>
-        <input
-          type="text"
+        <select
           name="course"
           value={formData.course}
           onChange={handleChange}
-          className="w-full px-3 py-2 border rounded"
+          className="w-full px-3 py-1 border rounded"
+          required
+        >
+          <option value="">Select a course</option>
+          <option value="BBA">BBA</option>
+          <option value="BBS">BBS</option>
+          <option value="BCA">BCA</option>
+          <option value="BIM">BIM</option>
+        </select>
+      </div>
+
+      {/* Gender Dropdown */}
+      <div className="mb-2">
+        <label className="block text-gray-700">Gender</label>
+        <select
+          name="gender"
+          value={formData.gender}
+          onChange={handleChange}
+          className="w-full px-3 py-1 border rounded"
+          required
+        >
+          <option value="">Select gender</option>
+          <option value="Male">Male</option>
+          <option value="Female">Female</option>
+          <option value="Other">Other</option>
+        </select>
+      </div>
+
+      {/* Image Upload */}
+      <div className="mb-2">
+        <label className="block text-gray-700">Profile Image</label>
+        <input
+          type="file"
+          accept="image/*"
+          onChange={handleImageChange}
+          className="w-full px-3 py-1 border rounded"
           required
         />
+        {formData.image && (
+          <img
+            src={URL.createObjectURL(formData.image)}
+            alt="Preview"
+            className="mt-2 w-20 h-20 object-cover rounded"
+          />
+        )}
       </div>
 
       {/* Buttons */}
