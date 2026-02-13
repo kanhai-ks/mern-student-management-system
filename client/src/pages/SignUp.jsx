@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import InputField from "../components/InputField";
+import api from "../utils/api";
 
 const SignUp = () => {
   const navigate = useNavigate();
@@ -17,7 +18,7 @@ const SignUp = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const { name, email, password, confirmPassword } = formData;
 
@@ -31,12 +32,24 @@ const SignUp = () => {
       return;
     }
 
-    // Dummy signup logic (replace with backend API later)
-    console.log("New User Registered:", formData);
-    toast.success("Signup successful!");
-    setTimeout(() => {
-      navigate("/login"); // redirect to login after success
-    }, 1500);
+    try {
+      const response = await api.post("/users/signup", {
+        name,
+        email,
+        password,
+        confirmPassword,
+      });
+      if (response.data.success) {
+        toast.success(response.data.message);
+        setTimeout(() => {
+          navigate("/login");
+        }, 1500);
+      } else {
+        toast.error(response.data.message);
+      }
+    } catch (error) {
+      toast.error("Signup failed. Please try again.");
+    }
   };
 
   return (

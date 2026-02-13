@@ -11,8 +11,8 @@ const studentSchema = new mongoose.Schema(
       required: true,
       enum: ["BBA", "BBS", "BCA", "BIM"],
     },
-    gender: { type: String, required: true, enum: ["Male", "Female", "Other"] },
-    image: { type: String },
+    gender: { type: String, required: true, enum: ["male", "female", "other"] },
+    image: { type: String, required: true },
   },
   { timestamps: true },
 );

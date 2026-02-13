@@ -5,30 +5,31 @@ import Footer from "../components/Footer";
 
 const Hero = () => {
   return (
-    <div>
+    <div className="min-h-screen bg-gray-50 flex flex-col">
       <Navbar />
-      <div className="text-center mt-10">
-        <h1 className="text-5xl font-bold text-blue-700">
+      <main className="flex-grow flex flex-col items-center justify-center text-center px-4">
+        <h1 className="text-5xl font-bold text-blue-700 mb-4">
           Student Management System
         </h1>
-        <p className="text-lg text-gray-600 mt-4">
-          Manage student records efficiently with full CRUD operations.
+        <p className="text-lg text-gray-600 mb-6 max-w-xl">
+          Manage student records efficiently with full CRUD operations. Add,
+          edit, and delete students with ease.
         </p>
-        <div className="mt-6">
+        <div className="flex gap-4">
           <Link
             to="/students"
-            className="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700"
+            className="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700 transition"
           >
             View Students
           </Link>
           <Link
             to="/students/add"
-            className="ml-4 bg-green-600 text-white px-6 py-2 rounded hover:bg-green-700"
+            className="bg-green-600 text-white px-6 py-2 rounded hover:bg-green-700 transition"
           >
-            Add Student
+            + Add Student
           </Link>
         </div>
-      </div>
+      </main>
       <Footer />
     </div>
   );

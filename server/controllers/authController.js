@@ -1,5 +1,8 @@
-// controllers/authController.js
+// Authentication: Controllers for user authentication
+// Handles signup, login, and password recovery with JWT tokens.
+
 import User from "../models/User.js";
+import jwt from "jsonwebtoken";
 import transporter from "../configs/nodemailer.js";
 
 // SIGNUP
@@ -47,7 +50,16 @@ export const login = async (req, res) => {
       return res.json({ success: false, message: "Invalid password" });
     }
 
-    return res.json({ success: true, message: "Login successful" });
+    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
+      expiresIn: "7d",
+    });
+
+    return res.json({
+      success: true,
+      message: "Login successful",
+      user: { id: user._id, name: user.name, email: user.email },
+      token,
+    });
   } catch (error) {
     return res.json({ success: false, message: error.message });
   }

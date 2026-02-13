@@ -2,9 +2,8 @@ import React from "react";
 
 const Footer = () => {
   return (
-    <footer className="fixed bottom-0  w-full bg-blue-300 text-center text-white-500 text-md py-5 shadow">
-      &copy; {new Date().getFullYear()} Student Management System. All rights
-      reserved.
+    <footer className="bg-gray-800 text-white text-center py-4 mt-auto">
+      © 2026 Student Management System. All rights reserved.
     </footer>
   );
 };

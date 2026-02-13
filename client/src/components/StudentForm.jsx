@@ -1,3 +1,5 @@
+// export default StudentForm;
+
 import React, { useState } from "react";
 import { toast } from "react-toastify";
 import InputField from "./InputField";
@@ -25,8 +27,8 @@ const StudentForm = ({ student, onSubmit, onCancel }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const { name, email, age, course, gender, image } = formData;
-    if (!name || !email || !age || !course || !gender || !image) {
+    const { name, email, age, course, gender } = formData;
+    if (!name || !email || !age || !course || !gender) {
       toast.error("Please fill in all fields");
       return;
     }
@@ -101,9 +103,9 @@ const StudentForm = ({ student, onSubmit, onCancel }) => {
           required
         >
           <option value="">Select gender</option>
-          <option value="Male">Male</option>
-          <option value="Female">Female</option>
-          <option value="Other">Other</option>
+          <option value="male">male</option>
+          <option value="female">female</option>
+          <option value="other">other</option>
         </select>
       </div>
 
@@ -115,11 +117,14 @@ const StudentForm = ({ student, onSubmit, onCancel }) => {
           accept="image/*"
           onChange={handleImageChange}
           className="w-full px-3 py-1 border rounded"
-          required
         />
         {formData.image && (
           <img
-            src={URL.createObjectURL(formData.image)}
+            src={
+              formData.image instanceof File
+                ? URL.createObjectURL(formData.image)
+                : formData.image
+            }
             alt="Preview"
             className="mt-2 w-20 h-20 object-cover rounded"
           />

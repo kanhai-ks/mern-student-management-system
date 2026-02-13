@@ -1,28 +1,27 @@
-// server.js
+// Server Setup
 import express from "express";
 import dotenv from "dotenv";
 import cors from "cors";
-import connectDB from "./config/db.js";
-import imagekit from "./config/imageKit.js";
+import connectDB from "./configs/db.js";
+import authRoutes from "./routes/authRoutes.js";
+import studentRoutes from "./routes/studentRoutes.js";
 
 dotenv.config();
 await connectDB();
 
 const app = express();
 
-//  Allowed frontend origins (CORS)
-const allowedOrigins = ["http://localhost:5173"];
+const allowedOrigins = ["http://localhost:5173", "http://localhost:5174"];
 
-// Middlewares
-app.use(cors());
-app.use(express.json());
 app.use(cors({ origin: allowedOrigins, credentials: true }));
+app.use(express.json());
+app.use("/uploads", express.static("uploads"));
 
-// Routes
 app.get("/", (req, res) => res.send("API is working.."));
+app.use("/api/users", authRoutes);
+app.use("/api/students", studentRoutes);
 
-// Port
 const PORT = process.env.PORT || 4000;
 app.listen(PORT, () => {
-  console.log(`Server is running on http://localhost:${PORT}`);
+  console.log(` Server is running on http://localhost:${PORT}`);
 });

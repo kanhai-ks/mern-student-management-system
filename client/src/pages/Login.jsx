@@ -1,106 +1,83 @@
-// src/pages/Login.jsx
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import InputField from "../components/InputField";
+import api from "../utils/api";
+import { AuthContext } from "../context/AuthContext";
+import Navbar from "../components/Navbar";
+import Footer from "../components/Footer";
 
 const Login = () => {
+  const { login } = useContext(AuthContext);
   const navigate = useNavigate();
-  const [formData, setFormData] = useState({
-    email: "",
-    password: "",
-  });
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
-
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    const { email, password } = formData;
-
-    if (!email || !password) {
-      toast.error("Please fill in all fields");
-      return;
-    }
-
-    // Dummy login check
-    if (email === "admin@gmail.com" && password === "123456") {
-      toast.success("Login successful!");
-      setTimeout(() => {
+    try {
+      const response = await api.post("/users/login", { email, password });
+      if (response.data.success) {
+        login(response.data.user, response.data.token);
+        toast.success("Login successful");
         navigate("/students");
-      }, 1500);
-    } else {
-      toast.error("Invalid email or password");
+      } else {
+        toast.error(response.data.message);
+      }
+    } catch {
+      toast.error("Login failed");
     }
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100">
-      <form
-        onSubmit={handleSubmit}
-        className="bg-white p-6 rounded-lg shadow-md w-full max-w-sm"
-      >
-        <h2 className="text-2xl font-bold text-center mb-4">Login</h2>
-
-        {/* Email */}
-        <InputField
-          label="Email"
-          type="email"
-          name="email"
-          value={formData.email}
-          onChange={handleChange}
-          required
-        />
-
-        {/* Password */}
-        <InputField
-          label="Password"
-          type="password"
-          name="password"
-          value={formData.password}
-          onChange={handleChange}
-          required
-        />
-
-        {/* Login Button */}
-        <button
-          type="submit"
-          className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700"
+    <div className="min-h-screen bg-gray-100 flex flex-col">
+      <Navbar />
+      <main className="flex-grow flex items-center justify-center">
+        <form
+          onSubmit={handleSubmit}
+          className="bg-white p-6 rounded-lg shadow-md w-full max-w-sm"
         >
-          Login
-        </button>
-
-        {/* Forgot Password Link */}
-        <p className="text-sm text-center mt-4">
-          <span
+          <h2 className="text-2xl font-bold text-center mb-4">Login</h2>
+          <InputField
+            label="Email"
+            type="email"
+            name="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+          />
+          <InputField
+            label="Password"
+            type="password"
+            name="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
+          <button
+            type="submit"
+            className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 mt-2"
+          >
+            Login
+          </button>
+          <button
+            type="button"
             onClick={() => navigate("/forgetpassword")}
-            className="text-red-600 cursor-pointer hover:underline"
+            className="w-full bg-gray-500 text-white py-2 rounded hover:bg-gray-600 mt-4"
           >
             Forgot Password?
-          </span>
-        </p>
-
-        {/* Sign Up Link */}
-        <p className="text-sm text-center mt-2">
-          Don’t have an account?{" "}
-          <span
-            onClick={() => navigate("/signup")}
-            className="text-blue-600 cursor-pointer hover:underline"
+          </button>
+          {/* Go to Home Button */}
+          <button
+            type="button"
+            onClick={() => navigate("/")}
+            className="w-full bg-gray-500 text-white py-2 rounded hover:bg-gray-600 mt-4"
           >
-            Sign Up
-          </span>
-        </p>
-
-        {/* Go to Home Button */}
-        <button
-          type="button"
-          onClick={() => navigate("/")}
-          className="w-full bg-gray-500 text-white py-2 rounded hover:bg-gray-600 mt-4"
-        >
-          Go to Home
-        </button>
-      </form>
+            Go to Home
+          </button>
+        </form>
+      </main>
+      <Footer />
     </div>
   );
 };
