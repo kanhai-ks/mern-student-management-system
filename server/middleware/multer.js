@@ -1,16 +1,17 @@
 import multer from "multer";
 import path from "path";
+import dotenv from "dotenv";
 
-// Configure storage
+dotenv.config();
+
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, "uploads/"); // folder where images will be saved
+    cb(null, process.env.UPLOADS_FOLDER);
   },
   filename: (req, file, cb) => {
-    cb(null, Date.now() + path.extname(file.originalname)); // unique filename
+    cb(null, Date.now() + path.extname(file.originalname));
   },
 });
 
 const upload = multer({ storage });
-
 export default upload;
