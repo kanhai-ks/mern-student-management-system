@@ -1,6 +1,3 @@
-// CRUD Operations: Add Student Page
-// This page allows adding a new student. Requires authentication.
-
 import React, { useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -37,7 +34,7 @@ const AddStudent = () => {
 
       if (response.data.success) {
         toast.success(response.data.message);
-        setTimeout(() => navigate("/students"), 2000);
+        setTimeout(() => navigate("/students"), 1500);
       } else {
         toast.error(response.data.message);
       }
@@ -52,8 +49,13 @@ const AddStudent = () => {
   };
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      <StudentForm onSubmit={handleSubmit} onCancel={handleCancel} />
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-blue-100 flex items-center justify-center px-4 py-5">
+      <div className="w-full max-w-xl bg-white shadow-md rounded-lg p-6">
+        <h1 className="text-2xl font-bold text-blue-600 mb-4 text-center">
+          Add New Student
+        </h1>
+        <StudentForm onSubmit={handleSubmit} onCancel={handleCancel} />
+      </div>
     </div>
   );
 };

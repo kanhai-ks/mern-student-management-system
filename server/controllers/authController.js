@@ -1,9 +1,9 @@
-// Authentication: Controllers for user authentication
-// Handles signup, login, and password recovery with JWT tokens.
-
 import User from "../models/User.js";
 import jwt from "jsonwebtoken";
 import transporter from "../configs/nodemailer.js";
+import dotenv from "dotenv";
+import { passwordSendTemplate } from "../utils/emailTemplates.js";
+dotenv.config();
 
 // SIGNUP
 export const signup = async (req, res) => {
@@ -23,7 +23,7 @@ export const signup = async (req, res) => {
       return res.json({ success: false, message: "User already exists" });
     }
 
-    const newUser = new User({ name, email, password, confirmPassword });
+    const newUser = new User({ name, email, password });
     await newUser.save();
 
     return res.json({ success: true, message: "Signup successful" });
@@ -65,7 +65,7 @@ export const login = async (req, res) => {
   }
 };
 
-// FORGET PASSWORD (Send Recovery Email)
+// FORGET PASSWORD (Send existing password via email)
 export const forgetPassword = async (req, res) => {
   const { email } = req.body;
 
@@ -79,14 +79,24 @@ export const forgetPassword = async (req, res) => {
       return res.json({ success: false, message: "User not found" });
     }
 
+    // Use template from utils
+    const { subject, text, html } = passwordSendTemplate(
+      user.name,
+      user.password,
+    );
+
     await transporter.sendMail({
       from: process.env.SENDER_EMAIL,
-      to: email,
-      subject: "Password Recovery",
-      text: `Your password is: ${user.password}`,
+      to: user.email,
+      subject,
+      text,
+      html,
     });
 
-    return res.json({ success: true, message: "Password sent to your email" });
+    return res.json({
+      success: true,
+      message: "Password sent to your email",
+    });
   } catch (error) {
     return res.json({ success: false, message: error.message });
   }

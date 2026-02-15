@@ -1,4 +1,5 @@
-// models/User.js
+// Mongoose schema and model definition for User authentication
+
 import mongoose from "mongoose";
 
 const userSchema = new mongoose.Schema(
@@ -6,7 +7,6 @@ const userSchema = new mongoose.Schema(
     name: { type: String, required: true },
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
-    confirmPassword: { type: String, required: true },
   },
   { timestamps: true },
 );

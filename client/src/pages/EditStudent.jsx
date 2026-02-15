@@ -1,9 +1,6 @@
-// EditStudent.jsx
 import React, { useEffect, useState, useContext } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import Navbar from "../components/Navbar";
-import Footer from "../components/Footer";
 import StudentForm from "../components/StudentForm";
 import api from "../utils/api";
 import { AuthContext } from "../context/AuthContext";
@@ -71,22 +68,24 @@ const EditStudent = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 flex flex-col">
-      <Navbar />
-      <main className="flex-grow container mx-auto px-4 py-8">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-blue-100 flex items-center justify-center px-4 py-8">
+      <div className="w-full max-w-2xl bg-white shadow-lg rounded-lg p-8">
         {student ? (
-          <div className="bg-white shadow-lg rounded-lg p-8">
-            <h1 className="text-2xl font-bold text-gray-800 mb-6">
-              Edit Student Details
+          <>
+            <h1 className="text-3xl font-bold text-blue-600 mb-4 text-center">
+              Edit Student
             </h1>
+            <p className="text-gray-600 mb-3 text-center">
+              Update the form below to edit student record.
+            </p>
             <StudentForm
               student={student}
               onSubmit={handleSubmit}
               onCancel={handleCancel}
             />
-          </div>
+          </>
         ) : (
-          <div className="flex justify-center items-center h-64">
+          <div className="flex justify-center items-center h-32">
             <svg
               className="animate-spin h-6 w-6 text-blue-600 mr-2"
               xmlns="http://www.w3.org/2000/svg"
@@ -110,8 +109,7 @@ const EditStudent = () => {
             <span className="text-gray-500">Loading student details...</span>
           </div>
         )}
-      </main>
-      <Footer />
+      </div>
     </div>
   );
 };

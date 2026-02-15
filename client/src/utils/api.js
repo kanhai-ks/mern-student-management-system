@@ -1,10 +1,7 @@
-// API Configuration: Axios instance for API calls
-// Configures base URL and adds JWT token to requests for authentication.
-
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: "http://localhost:4000/api",
+  baseURL: import.meta.env.VITE_API_BASE || "http://localhost:4000/api",
 });
 
 api.interceptors.request.use((config) => {

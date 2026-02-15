@@ -12,7 +12,6 @@ import EditStudent from "./pages/EditStudent";
 import Login from "./pages/Login";
 import SignUp from "./pages/SignUp";
 import ForgetPassword from "./pages/ForgetPassword";
-import Logout from "./pages/Logout";
 
 const App = () => {
   return (
@@ -28,7 +27,6 @@ const App = () => {
         <Route path="/students" element={<StudentsList />} />
         <Route path="/students/add" element={<AddStudent />} />
         <Route path="/students/edit/:id" element={<EditStudent />} />
-        <Route path="/logout" element={<Logout />} />
 
         {/* Catch-all */}
         <Route path="*" element={<NotFound />} />

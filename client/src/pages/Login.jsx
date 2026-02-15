@@ -38,6 +38,8 @@ const Login = () => {
           className="bg-white p-6 rounded-lg shadow-md w-full max-w-sm"
         >
           <h2 className="text-2xl font-bold text-center mb-4">Login</h2>
+
+          {/* Email */}
           <InputField
             label="Email"
             type="email"
@@ -46,6 +48,8 @@ const Login = () => {
             onChange={(e) => setEmail(e.target.value)}
             required
           />
+
+          {/* Password */}
           <InputField
             label="Password"
             type="password"
@@ -54,27 +58,47 @@ const Login = () => {
             onChange={(e) => setPassword(e.target.value)}
             required
           />
+
+          {/* Login Button */}
           <button
             type="submit"
             className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 mt-2"
           >
             Login
           </button>
-          <button
-            type="button"
-            onClick={() => navigate("/forgetpassword")}
-            className="w-full bg-gray-500 text-white py-2 rounded hover:bg-gray-600 mt-4"
-          >
-            Forgot Password?
-          </button>
-          {/* Go to Home Button */}
-          <button
-            type="button"
-            onClick={() => navigate("/")}
-            className="w-full bg-gray-500 text-white py-2 rounded hover:bg-gray-600 mt-4"
-          >
-            Go to Home
-          </button>
+
+          {/* Forgot Password Link */}
+          <p className="text-center mt-3">
+            <button
+              type="button"
+              onClick={() => navigate("/forgetpassword")}
+              className="text-blue-600 hover:underline font-medium"
+            >
+              Forgot Password?
+            </button>
+          </p>
+
+          {/* Go to Home Link */}
+          <p className="text-center mt-2">
+            <button
+              type="button"
+              onClick={() => navigate("/")}
+              className="text-gray-600 hover:underline font-medium"
+            >
+              Go to Home
+            </button>
+          </p>
+
+          {/* Optional: Create Account Button (like Facebook) */}
+          <p className="text-center mt-4">
+            <button
+              type="button"
+              onClick={() => navigate("/signup")}
+              className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700"
+            >
+              Create New Account
+            </button>
+          </p>
         </form>
       </main>
       <Footer />

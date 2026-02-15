@@ -1,5 +1,3 @@
-// export default StudentForm;
-
 import React, { useState } from "react";
 import { toast } from "react-toastify";
 import InputField from "./InputField";
@@ -40,9 +38,7 @@ const StudentForm = ({ student, onSubmit, onCancel }) => {
       onSubmit={handleSubmit}
       className="max-w-md mx-auto bg-white p-2 rounded-lg shadow-md"
     >
-      <h2 className="text-2xl text-center font-bold mb-2">
-        {student ? "Edit Student" : "Add Student"}
-      </h2>
+      {/* Removed duplicate heading */}
 
       {/* Name */}
       <InputField
@@ -103,9 +99,9 @@ const StudentForm = ({ student, onSubmit, onCancel }) => {
           required
         >
           <option value="">Select gender</option>
-          <option value="male">male</option>
-          <option value="female">female</option>
-          <option value="other">other</option>
+          <option value="male">Male</option>
+          <option value="female">Female</option>
+          <option value="other">Other</option>
         </select>
       </div>
 

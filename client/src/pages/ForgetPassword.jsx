@@ -1,4 +1,3 @@
-// src/pages/ForgetPassword.jsx
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -30,7 +29,7 @@ const ForgetPassword = () => {
       const response = await api.post("/users/forgetpassword", { email });
       if (response.data.success) {
         toast.success(response.data.message);
-        setEmail(""); // clear field after success
+        setEmail("");
       } else {
         toast.error(response.data.message);
       }
@@ -105,14 +104,16 @@ const ForgetPassword = () => {
             )}
           </button>
 
-          {/* Go to Login Button */}
-          <button
-            type="button"
-            onClick={() => navigate("/login")}
-            className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 mt-4"
-          >
-            Go to Login
-          </button>
+          {/* Go to Login Link */}
+          <p className="text-center mt-4">
+            <button
+              type="button"
+              onClick={() => navigate("/login")}
+              className="text-blue-600 hover:underline font-medium"
+            >
+              Go to Login
+            </button>
+          </p>
         </form>
       </main>
       <Footer />

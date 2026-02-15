@@ -1,4 +1,3 @@
-// src/pages/SignUp.jsx
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -43,7 +42,7 @@ const SignUp = () => {
         toast.success(response.data.message);
         setTimeout(() => {
           navigate("/login");
-        }, 1500);
+        }, 1000);
       } else {
         toast.error(response.data.message);
       }
@@ -103,7 +102,7 @@ const SignUp = () => {
         {/* Sign Up Button */}
         <button
           type="submit"
-          className="w-full bg-green-600 text-white py-2 rounded hover:bg-green-700"
+          className="w-full bg-green-600 text-white py-2 rounded hover:bg-green-700 mt-2"
         >
           Sign Up
         </button>
@@ -111,22 +110,25 @@ const SignUp = () => {
         {/* Login Link */}
         <p className="text-sm text-center mt-4">
           Already have an account?{" "}
-          <span
+          <button
+            type="button"
             onClick={() => navigate("/login")}
-            className="text-blue-600 cursor-pointer hover:underline"
+            className="text-blue-600 hover:underline font-medium"
           >
             Login
-          </span>
+          </button>
         </p>
 
-        {/* Go to Home Button */}
-        <button
-          type="button"
-          onClick={() => navigate("/")}
-          className="w-full bg-gray-500 text-white py-2 rounded hover:bg-gray-600 mt-4"
-        >
-          Go to Home
-        </button>
+        {/* Go to Home Link */}
+        <p className="text-center mt-2">
+          <button
+            type="button"
+            onClick={() => navigate("/")}
+            className="text-gray-600 hover:underline font-medium"
+          >
+            Go to Home
+          </button>
+        </p>
       </form>
     </div>
   );

@@ -1,4 +1,5 @@
-// models/Student.js
+//  Mongoose schema and model definition for Student records
+
 import mongoose from "mongoose";
 
 const studentSchema = new mongoose.Schema(

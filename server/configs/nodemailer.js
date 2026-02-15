@@ -1,3 +1,5 @@
+// Email server configuration using Nodemailer and environment variables
+
 import nodemailer from "nodemailer";
 import dotenv from "dotenv";
 dotenv.config();

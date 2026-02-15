@@ -1,7 +1,6 @@
 import Student from "../models/Student.js";
-import path from "path";
 
-// CRUD Operations: Add Student
+// ADD Student
 export const addStudent = async (req, res) => {
   try {
     const { name, email, age, course, gender } = req.body;
@@ -28,10 +27,16 @@ export const addStudent = async (req, res) => {
       image: imagePath,
     });
 
+    const baseUrl = `${req.protocol}://${req.get("host")}`;
+    const studentData = {
+      ...newStudent.toObject(),
+      image: newStudent.image ? `${baseUrl}${newStudent.image}` : null,
+    };
+
     return res.json({
       success: true,
       message: "Student added successfully",
-      student: newStudent,
+      student: studentData,
     });
   } catch (error) {
     return res.json({ success: false, message: error.message });
@@ -42,7 +47,12 @@ export const addStudent = async (req, res) => {
 export const getStudents = async (req, res) => {
   try {
     const students = await Student.find();
-    return res.json({ success: true, students });
+    const baseUrl = `${req.protocol}://${req.get("host")}`;
+    const studentsData = students.map((s) => ({
+      ...s.toObject(),
+      image: s.image ? `${baseUrl}${s.image}` : null,
+    }));
+    return res.json({ success: true, students: studentsData });
   } catch (error) {
     return res.json({ success: false, message: error.message });
   }
@@ -56,7 +66,6 @@ export const updateStudent = async (req, res) => {
     const imageFile = req.file;
 
     let updateData = { name, email, age, course, gender };
-
     if (imageFile) {
       updateData.image = `/uploads/${imageFile.filename}`;
     }
@@ -65,10 +74,16 @@ export const updateStudent = async (req, res) => {
       new: true,
     });
 
+    const baseUrl = `${req.protocol}://${req.get("host")}`;
+    const studentData = {
+      ...updatedStudent.toObject(),
+      image: updatedStudent.image ? `${baseUrl}${updatedStudent.image}` : null,
+    };
+
     return res.json({
       success: true,
       message: "Student updated successfully",
-      student: updatedStudent,
+      student: studentData,
     });
   } catch (error) {
     return res.json({ success: false, message: error.message });

@@ -18,7 +18,15 @@ router.get("/:id", async (req, res) => {
     if (!student) {
       return res.json({ success: false, message: "Student not found" });
     }
-    res.json({ success: true, student });
+
+    // Build full image URL
+    const baseUrl = `${req.protocol}://${req.get("host")}`;
+    const studentData = {
+      ...student.toObject(),
+      image: student.image ? `${baseUrl}${student.image}` : null,
+    };
+
+    res.json({ success: true, student: studentData });
   } catch (error) {
     res.json({ success: false, message: error.message });
   }
