@@ -10,7 +10,7 @@ This project demonstrates CRUD operations, user authentication and password rese
   - Signup with email and password
   - Login with credentials
   - Password reset via email (Nodemailer)
-- *CRUD Operations
+- CRUD Operations
   - Add new student records
   - View student details
   - Update student information
