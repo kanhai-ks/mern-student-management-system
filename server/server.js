@@ -1,5 +1,4 @@
-// Express server setup with MongoDB connection, CORS, static uploads, and API routes
-
+// server.js
 import express from "express";
 import dotenv from "dotenv";
 import cors from "cors";
@@ -12,11 +11,19 @@ await connectDB();
 
 const app = express();
 
-// Allowed frontend origins for CORS
-const allowedOrigins = ["http://localhost:5173", "http://localhost:5174"];
-app.use(cors({ origin: allowedOrigins, credentials: true }));
+//  CORS setup using environment variable FRONTEND_URL
+app.use(
+  cors({
+    origin: process.env.FRONTEND_URL,
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    credentials: true,
+  }),
+);
 
-// Middleware for JSON parsing and serving static uploads
+// Handle preflight requests
+app.options("*", cors());
+
+// Middleware
 app.use(express.json());
 app.use("/uploads", express.static("uploads"));
 

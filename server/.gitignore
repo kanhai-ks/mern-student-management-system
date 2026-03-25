@@ -27,3 +27,6 @@ Thumbs.db
 # IDE/editor settings
 .vscode/
 .idea/
+
+#before hosting server code
+server.txt
