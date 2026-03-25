@@ -28,5 +28,3 @@ Thumbs.db
 .vscode/
 .idea/
 
-#before hosting server code
-server.txt
