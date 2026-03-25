@@ -20,8 +20,8 @@ This project demonstrates CRUD operations, user authentication and password rese
 - Responsive UI with React
 
 Tech Stack
-- Frontend:** React, Tailwind CSS , Axios
-- Backend:** Node.js, Express.js
-- Database:** MongoDB (Mongoose)
-- Email Service:** Nodemailer
+- Frontend: React, Tailwind CSS , Axios
+- Backend: Node.js, Express.js
+- Database: MongoDB (Mongoose)
+- Email Service: Nodemailer
 
