@@ -17,8 +17,7 @@ pnpm-debug.log*
 dist/
 build/
 
-# Ignore uploads folder 
-uploads/
+
 
 # OS-specific files
 .DS_Store
