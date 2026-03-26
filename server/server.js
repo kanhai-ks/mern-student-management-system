@@ -10,28 +10,21 @@ await connectDB();
 
 const app = express();
 
-const allowedOrigins = [
-  "http://localhost:5173",
-  "http://localhost:5174",
-  process.env.FRONTEND_URL,
-];
+// Allowed frontend origins for CORS
+const allowedOrigins = ["http://localhost:5173", "http://localhost:5174"];
+app.use(cors({ origin: allowedOrigins, credentials: true }));
 
-app.use(
-  cors({
-    origin: allowedOrigins,
-    methods: ["GET", "POST", "PUT", "DELETE"],
-    credentials: true,
-  }),
-);
-
+// Middleware for JSON parsing and serving static uploads
 app.use(express.json());
 app.use("/uploads", express.static("uploads"));
 
+// Routes
 app.get("/", (req, res) => res.send("API is working.."));
 app.use("/api/users", authRoutes);
 app.use("/api/students", studentRoutes);
 
+// Server listening
 const PORT = process.env.PORT || 4000;
 app.listen(PORT, () => {
-  console.log(` Server running on http://localhost:${PORT}`);
+  console.log(` Server is running on http://localhost:${PORT}`);
 });
