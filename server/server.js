@@ -1,5 +1,4 @@
-// Express server setup with MongoDB connection, CORS, static uploads, and API routes
-
+// server.js
 import express from "express";
 import dotenv from "dotenv";
 import cors from "cors";
@@ -12,11 +11,31 @@ await connectDB();
 
 const app = express();
 
-// Allowed frontend origins for CORS
-const allowedOrigins = ["http://localhost:5173", "http://localhost:5174"];
-app.use(cors({ origin: allowedOrigins, credentials: true }));
+//  Allowed origins: local + deployed frontend
+const allowedOrigins = [
+  "http://localhost:5173",
+  "http://localhost:5174",
+  process.env.FRONTEND_URL,
+];
 
-// Middleware for JSON parsing and serving static uploads
+app.use(
+  cors({
+    origin: function (origin, callback) {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    credentials: true,
+  }),
+);
+
+// Handle preflight requests
+app.options("*", cors());
+
+// Middleware
 app.use(express.json());
 app.use("/uploads", express.static("uploads"));
 
@@ -28,5 +47,5 @@ app.use("/api/students", studentRoutes);
 // Server listening
 const PORT = process.env.PORT || 4000;
 app.listen(PORT, () => {
-  console.log(` Server is running on http://localhost:${PORT}`);
+  console.log(`✅ Server is running on http://localhost:${PORT}`);
 });
