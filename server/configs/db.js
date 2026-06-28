@@ -1,26 +1,14 @@
 import mongoose from "mongoose";
-import dotenv from "dotenv";
-
-dotenv.config();
+import dns from "dns";
 
 const connectDB = async () => {
+  dns.setServers(["1.1.1.1", "8.8.8.8"]); 
   try {
-    const isProduction = process.env.NODE_ENV === "production";
-
-    const MONGO_URI = isProduction
-      ? process.env.MONGODB_URL_ATLAS
-      : process.env.MONGODB_URL_LOCAL;
-
-    console.log("Connecting MongoDB...");
-    console.log("Environment:", process.env.NODE_ENV);
-
-    await mongoose.connect(MONGO_URI);
-
-    console.log("✅ MongoDB Connected Successfully");
+    await mongoose.connect(process.env.MONGODB_URL); 
+    console.log("MongoDB Connected");
   } catch (err) {
-    console.error("❌ MongoDB connection failed:");
-    console.error(err);
-    process.exit(1);
+    console.error("MongoDB connection failed:", err.message);
+    process.exit(1); 
   }
 };
 
